@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import Add from '@/components/buttons/Add'
 import ListLength from './ListLength'
 import Ignore from '@/components/buttons/Ignore'
+import Link from 'next/link'
 
 interface Props {
     accts: any[]
@@ -18,29 +19,29 @@ const FollowingContainer: React.FC<Props> = ({ accts, listStatus }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [updated, setUpdated] = useState<any>('');
 
-    const timeOfDate = updated? new Date(updated).getTime():0;
+    const timeOfDate = updated ? new Date(updated).getTime() : 0;
     const router = useRouter();
- 
+
 
 
     const getData = async () => {
         const res = await getTracking()
         setTracked(res);
-        if(listStatus == null){
+        if (listStatus == null) {
 
             const res2 = await getAllFollowingsForNull();
             setFollowing(res2);
-        }else if (listStatus == true) {
+        } else if (listStatus == true) {
             const res2 = await getAllFollowings();
             setFollowing(res2);
-        }else{
+        } else {
             const res2 = await getAllFollowingsForFalse();
             setFollowing(res2);
         }
         const lastUpdated = await getLastUpdated();
         // @ts-ignore
         setUpdated(lastUpdated[0].last_updated);
-        
+
         setIsLoading(false);
     }
     useEffect(() => {
@@ -100,7 +101,7 @@ const FollowingContainer: React.FC<Props> = ({ accts, listStatus }) => {
     }
     return (
         <>
-           <ListLength loading={isLoading} following={following} updated={updated} listStatus={listStatus} />
+            <ListLength loading={isLoading} following={following} updated={updated} listStatus={listStatus} />
             <hr />
             <div className=' '>
                 {window.location.href.endsWith('application') && (
@@ -114,7 +115,21 @@ const FollowingContainer: React.FC<Props> = ({ accts, listStatus }) => {
                             <div className='grid mx-12 grid-cols-1 2xl:grid-cols-12 my-2 '>
                                 <div className='hidden 2xl:flex 2xl:col-start-1 2xl:col-span-3 m-4'>
 
-                                    <Ignore username={item.account} reload={reload} state={item.jk_follows} size={true} />
+                                    {/* <Ignore username={item.account} reload={reload} state={item.jk_follows} size={true} />
+                                                <div>
+                                            */}
+                                    {item.followed_by && (
+                                        <div className='bg-amber-500 text-2xl text-center text-white w-full h-full mr-1 rounded-xl hover:scale-110'>
+
+                                            <p className='text-white'>Tracked by</p>
+                                            <p className='text-purple-700'>
+                                                <Link href={`https://twitter.com/${item.followed_by[0]}`} target='blank' >
+                                                    {item.followed_by[0]}
+
+                                                </Link>
+                                            </p>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className='col-span-1  2xl:col-start-4 2xl:col-span-6 2xl:mx-24 '>
                                     {/* @ts-ignore */}
