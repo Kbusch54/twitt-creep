@@ -112,17 +112,15 @@ const FollowingContainer: React.FC<Props> = ({ accts, listStatus }) => {
                 {following.map((item: { jk_follows: string | boolean | null; account: string; username: string; description: string | null; created_at: string; followed_by: string[] }, index: any) => (
                     <>
                         {listStatus == item.jk_follows ? (
-                            <div className='grid mx-12 grid-cols-1 2xl:grid-cols-12 my-2 '>
-                                <div className='hidden 2xl:flex 2xl:col-start-1 2xl:col-span-3 m-4'>
+                            <div className='grid mx-12 grid-cols-1 2xl:grid-cols-12 my-4 '>
+                                <div className='hidden 2xl:flex 2xl:col-start-1 2xl:col-span-2 m-4'>
 
                                     {/* <Ignore username={item.account} reload={reload} state={item.jk_follows} size={true} />
                                                 <div>
                                             */}
                                     {item.followed_by && (
-                                        <div className='bg-amber-500 text-2xl text-center text-white w-full h-full mr-1 rounded-xl hover:scale-110'>
-
-                                            <p className='text-white'>Tracked by</p>
-                                            <p className='text-purple-700'>
+                                        <div className='text-md text-center justify-center text-white hover:scale-110 pt-4'>
+                                            <p>
                                                 <Link href={`https://twitter.com/${item.followed_by[0]}`} target='blank' >
                                                     {item.followed_by[0]}
 
@@ -131,7 +129,7 @@ const FollowingContainer: React.FC<Props> = ({ accts, listStatus }) => {
                                         </div>
                                     )}
                                 </div>
-                                <div className='col-span-1  2xl:col-start-4 2xl:col-span-6 2xl:mx-24 '>
+                                <div className='col-span-1  2xl:col-start-3 2xl:col-span-7 2xl:mx-24 '>
                                     {/* @ts-ignore */}
                                     <FollowingCard reload={reload} key={(item.account + item.username).replace(/\n/g, ' ').replace('@', '')} bio={item.description} createdAt={item.created_at} name={item.account} username={item.username} followers={item.followed_by} tracked={tracked} state={item.jk_follows} />
                                 </div>
